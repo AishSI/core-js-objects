@@ -171,20 +171,27 @@ function sellTickets(queue) {
     100: 0,
   };
   return queue.every((money) => {
-    if (money === 100) {
-      moneyChange[money] += 1;
-      if ((moneyChange[50] > 0 && moneyChange[25] > 0) || moneyChange[25] > 2) {
+    moneyChange[money] += 1;
+    switch (money) {
+      case 25:
         return true;
-      }
-    } else if (money === 50) {
-      moneyChange[money] += 1;
-      if (moneyChange[25] > 0) {
-        return true;
-      }
-    } else if (money === 25) {
-      moneyChange[money] += 1;
-      return true;
+      case 50:
+        if (moneyChange[25] > 0) {
+          return true;
+        }
+        break;
+      case 100:
+        if (
+          (moneyChange[50] > 0 && moneyChange[25] > 0) ||
+          moneyChange[25] > 2
+        ) {
+          return true;
+        }
+        break;
+      default:
+        return false;
     }
+
     return false;
   });
 }
